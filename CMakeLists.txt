@@ -8,6 +8,7 @@ set(FETCHCONTENT_QUIET FALSE)
 set(FONTS_DIR_PATH ${CMAKE_CURRENT_SOURCE_DIR}/fonts)
 file(COPY ${FONTS_DIR_PATH} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
+include_directories(include)
 include(FetchContent)
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
@@ -17,5 +18,6 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(main src/main.cpp)
+
+add_executable(main src/main.cpp src/button.cpp)
 target_link_libraries(main PRIVATE SFML::Graphics)
