@@ -49,7 +49,6 @@ void Button::update(const sf::RenderWindow& window) {
 void Button::setPosition(const sf::Vector2f& newPosition) {
     shape.setPosition(newPosition);
     
-    // Пересчитываем позицию текста для центрирования
     sf::Vector2f size = shape.getSize();
     label.setPosition(sf::Vector2f(newPosition.x + size.x / 2.0f, 
                                   newPosition.y + size.y / 2.0f));

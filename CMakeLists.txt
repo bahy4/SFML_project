@@ -17,7 +17,14 @@ FetchContent_Declare(SFML
     EXCLUDE_FROM_ALL
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
+set (SOURCES
+    src/main.cpp
+    src/button.cpp
+    src/HLayout.cpp
+    src/VLayout.cpp
+    src/layout.cpp
+)
 
 
-add_executable(main src/main.cpp src/button.cpp)
+add_executable(main ${SOURCES})
 target_link_libraries(main PRIVATE SFML::Graphics)
