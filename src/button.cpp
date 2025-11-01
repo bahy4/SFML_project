@@ -9,46 +9,34 @@ Button::Button(const sf::Vector2f& position, const sf::Vector2f& size,
                const std::string& text, const sf::Font& font) 
     : shape(),
       label(font,text),
-      normalColor(sf::Color::Blue),    // Синий по умолчанию
-      hoverColor(sf::Color::Cyan),     // Голубой при наведении
-      pressColor(sf::Color::Red)       // Красный при нажатии
+      normalColor(sf::Color::Blue),    
+      hoverColor(sf::Color::Cyan),     
+      pressColor(sf::Color::Red)       
 {
-    // Настройка прямоугольника
     shape.setPosition(position);
     shape.setSize(size);
     shape.setFillColor(normalColor);
     
-    // Настройка текста
-    //label.setFont(font);
-    //label.setString(text);
     label.setCharacterSize(24);
     label.setFillColor(sf::Color::White);
     
-    // Центрирование текста
     sf::FloatRect textBounds = label.getLocalBounds();
     
-    // Устанавливаем origin в центр текста (используем новые имена полей: x, y, w, h)
     label.setOrigin(sf::Vector2f(textBounds.position.x + textBounds.size.x / 2.0f, 
                                 textBounds.position.y + textBounds.size.y / 2.0f));
     
-    // Устанавливаем позицию текста в центр кнопки
     label.setPosition(sf::Vector2f(position.x + size.x / 2.0f, 
                                   position.y + size.y / 2.0f));
-    //label.setPosition(sf::Vector2f(position.x + 10, position.y + 10));
 }
 
 void Button::update(const sf::RenderWindow& window) {
-    // Получаем позицию мыши относительно окна
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
     
-    // Проверяем наведение курсора
     isHovered = shape.getGlobalBounds().contains(mousePosF);
     
-    // Проверяем нажатие левой кнопки мыши
     isPressed = isHovered && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
     
-    // Обновляем цвет в зависимости от состояния
     if (isPressed) {
         shape.setFillColor(pressColor);
     } else if (isHovered) {
@@ -58,7 +46,24 @@ void Button::update(const sf::RenderWindow& window) {
     }
 }
 
+void Button::setPosition(const sf::Vector2f& newPosition) {
+    shape.setPosition(newPosition);
+    
+    // Пересчитываем позицию текста для центрирования
+    sf::Vector2f size = shape.getSize();
+    label.setPosition(sf::Vector2f(newPosition.x + size.x / 2.0f, 
+                                  newPosition.y + size.y / 2.0f));
+}
+
+sf::Vector2f Button::getSize() const {
+    return shape.getSize();
+}
+
+sf::FloatRect Button::getGlobalBounds() const {
+    return shape.getGlobalBounds();
+}
+
 void Button::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    target.draw(shape, states);  // Рисуем прямоугольник
-    target.draw(label, states);  // Рисуем текст поверх
+    target.draw(shape, states);  
+    target.draw(label, states);  
 }
